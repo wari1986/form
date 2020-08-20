@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import logo from './logo.svg';
-import './App.css';
+import './index.css';
 
 function App() {
 
@@ -9,6 +8,10 @@ function App() {
     lastName: '',
     email: '',
   });
+
+  const [submitted, setSubmitted] = useState(false);
+
+  const [valid,setValid] = useState(false);
 
   const handleFirstNameInputChange = (event) => {
   	event.persist();
@@ -34,13 +37,18 @@ function App() {
     }));
   };
 
-  const [submitted, setSubmitted] = useState(false);
+  const handleSubmit =(event) => {
+    event.preventDefault();
+    if(values.firstName && values.lastName && values.email) {
+    setValid(true);
+    }
+    setSubmitted(true);
+  };
 
   return (
     <div className='form-container'>
-      <form className='register-form'>
-      {/* Uncomment the next line to show the success message */}
-      {/* <div class="success-message">Success! Thank you for registering</div> */}
+      <form className='register-form' onSubmit={handleSubmit}>
+        {submitted && valid ? <div class='success-message'>Success! Thank you for registering</div> : null}
         <input
           id='first-name'
           class='form-field'
@@ -50,8 +58,7 @@ function App() {
           value={values.firstName}
           onChange={handleFirstNameInputChange}
         />
-        {/* Uncomment the next line to show the error message */}
-        {/* <span id="first-name-error">Please enter a first name</span> */}
+        {submitted && !values.firstName ? <span id='first-name-error'>Please enter a first name</span> : null}
         <input
           id='last-name'
           class='form-field'
@@ -61,8 +68,7 @@ function App() {
           value={values.lastName}
           onChange={handleLastNameInputChange}
         />
-        {/* Uncomment the next line to show the error message */}
-        {/* <span id="last-name-error">Please enter a last name</span> */}
+        {submitted && !values.lastName ? <span id="last-name-error">Please enter a last name</span> : null}
         <input
           id='email'
           class='form-field'
@@ -72,13 +78,11 @@ function App() {
           value={values.email}
           onChange={handleEmailInputChange}
         />
-        {/* Uncomment the next line to show the error message */}
-        {/* <span id="email-error">Please enter an email address</span> */}
+        {submitted && !values.email ? <span id="email-error">Please enter an email address</span> : null}
         <button class="form-field" type="submit">
           Register
         </button>
       </form>
-      <div class='success-message'>Success! Thank you for registering</div>
     </div>
   );
 }
