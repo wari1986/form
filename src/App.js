@@ -2,6 +2,12 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+const [values,setValues] = useState({
+  firstName: '',
+  lastName: '',
+  email: '',
+});
+
 function App() {
   return (
     <div className="App">
